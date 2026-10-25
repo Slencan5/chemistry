@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ai Là Bậc Thầy Hóa Học? - Chuyên Đề Keo Dán Tổng Hợp</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Game Show Studio Ambient Lighting & Canvas -->
+  <div class="studio-ambient-lighting">
+    <div class="spotlight spot-left"></div>
+    <div class="spotlight spot-right"></div>
+    <div class="stage-floor-glow"></div>
+  </div>
+
+  <canvas id="studio-particles"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+
+  <div id="game-app">
+
+    <!-- ==========================================
+         SCREEN 1: STUDIO INTRO & START SCREEN
+         ========================================== -->
+    <div id="screen-start" class="screen active">
+      <div class="studio-intro-card">
+        
+        <div class="studio-badge-row">
+          <span class="live-pill">LIVE STUDIO</span>
+          <span class="show-subject">CHUYÊN ĐỀ HÓA HỌC 12 • POLYMER & VẬT LIỆU</span>
+        </div>
+
+        <div class="show-logo-wrapper">
+          <div class="logo-ring-outer"></div>
+          <div class="logo-ring-inner"></div>
+          <div class="logo-icon-emblem">⚗️</div>
+          <h1 class="show-main-title">AI LÀ BẬC THẦY HÓA HỌC?</h1>
+          <div class="show-sub-title">ĐẤU TRƯỜNG KEO DÁN TỔNG HỢP</div>
+        </div>
+
+        <p class="show-pitch">
+          Chinh phục nấc thang 10 câu hỏi để tìm hiểu tính chất, cơ chế đóng rắn và ứng dụng thực tiễn của <strong>Nhựa Vá Săm</strong>, <strong>Keo Epoxy (AB)</strong> và <strong>Keo Poly(UF)</strong>!
+        </p>
+
+        <!-- Feature Badges -->
+        <div class="intro-perks-row">
+          <div class="perk-chip">
+            <span class="p-icon">🎯</span>
+            <span>Dễ tiếp cận • Không cần học trước</span>
+          </div>
+          <div class="perk-chip">
+            <span class="p-icon">🧪</span>
+            <span>3 Quyền trợ giúp sống còn</span>
+          </div>
+          <div class="perk-chip">
+            <span class="p-icon">🏆</span>
+            <span>Giải thưởng 250.000.000 điểm</span>
+          </div>
+        </div>
+
+        <div class="intro-action-group">
+          <button class="btn-studio-start" onclick="startGame()">
+            BƯỚC VÀO TRƯỜNG QUAY 🎙️
+          </button>
+          <div class="host-tip">
+            Phím tắt: Bấm phím <strong>A, B, C, D</strong> để chọn • Phím <strong>1, 2, 3</strong> dùng trợ giúp
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         SCREEN 2: MAIN GAME SHOW ARENA
+         ========================================== -->
+    <div id="screen-game" class="screen">
+      
+      <!-- Top Studio Control Bar -->
+      <div class="studio-hud-bar">
+        <div class="hud-left">
+          <div class="current-level-tag">
+            CÂU SỐ <span id="hud-q-index">01</span> / 10
+          </div>
+          <div class="current-prize-display">
+            MỨC THƯỞNG: <span id="hud-q-prize" class="prize-gold">1.000.000 Đ</span>
+          </div>
+        </div>
+
+        <!-- 3 Interactive Lifelines -->
+        <div class="hud-lifelines" id="lifelines-container">
+          <button class="lifeline-btn" id="ll-5050" onclick="use5050()" title="50:50 - Loại bỏ 2 phương án sai (Phím 1)">
+            <span class="ll-num">1</span>
+            <span class="ll-txt">50:50</span>
+          </button>
+          <button class="lifeline-btn" id="ll-poll" onclick="useAudiencePoll()" title="Hỏi ý kiến cả lớp (Phím 2)">
+            <span class="ll-num">2</span>
+            <span class="ll-txt">Ý Kiến Cả Lớp</span>
+          </button>
+          <button class="lifeline-btn" id="ll-expert" onclick="useExpertCall()" title="Gợi ý Chuyên gia Hóa học (Phím 3)">
+            <span class="ll-num">3</span>
+            <span class="ll-txt">Gợi Ý Chuyên Gia</span>
+          </button>
+        </div>
+
+        <div class="hud-right">
+          <button class="studio-tool-btn" onclick="openCheatsheet()" title="Bảng tra cứu lý thuyết">
+            📖 Tra Cứu
+          </button>
+          <button class="studio-tool-btn" id="btn-sound" onclick="toggleSound()" title="Bật/Tắt âm thanh trường quay">
+            🔊
+          </button>
+          <button class="studio-tool-btn" onclick="toggleFullscreen()" title="Toàn màn hình">
+            ⛶
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Stage Arena Split -->
+      <div class="arena-split-container">
+        
+        <!-- Left: Stage Spotlight, Question & Answer Lozenges -->
+        <div class="arena-stage-main">
+          
+          <!-- Big Question Lozenge -->
+          <div class="question-lozenge-frame">
+            <div class="lozenge-accent-bar left"></div>
+            <div class="question-content-box">
+              <span class="question-number-badge" id="arena-q-badge">CÂU HỎI SỐ 01</span>
+              <h2 class="question-main-text" id="arena-q-text">
+                Đang tải dữ liệu câu hỏi từ trường quay...
+              </h2>
+            </div>
+            <div class="lozenge-accent-bar right"></div>
+          </div>
+
+          <!-- 4 Answer Lozenges [A], [B], [C], [D] -->
+          <div class="answers-grid" id="answers-container">
+            <!-- Dynamic Lozenges injected via JS -->
+          </div>
+
+        </div>
+
+        <!-- Right: The Iconic Money Tree Ladder -->
+        <div class="arena-money-tree">
+          <div class="tree-header">THANG BẬC GIẢI THƯỞNG</div>
+          <div class="ladder-levels" id="money-ladder">
+            <!-- Dynamic ladder rungs injected via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ==========================================
+         SCREEN 3: VICTORY & CHAMPION SCREEN
+         ========================================== -->
+    <div id="screen-end" class="screen">
+      <div class="victory-studio-card">
+        
+        <div class="champion-trophy-ring">
+          <div class="trophy-glow"></div>
+          <div class="trophy-symbol" id="end-trophy-icon">🏆</div>
+        </div>
+
+        <span class="champion-tag" id="end-status-title">HOÀN THÀNH TOÀN BỘ 10 CÂU HỎI</span>
+        <h2 class="champion-name" id="end-prize-title">250.000.000 ĐIỂM THƯỞNG</h2>
+        <div class="champion-score-pill" id="end-score-pill">KẾT QUẢ: 10 / 10 CÂU CHÍNH XÁC</div>
+        
+        <p class="champion-subtitle" id="end-comment">
+          Chúc mừng người chơi và cả lớp đã chinh phục thành công toàn bộ 10 câu hỏi của đấu trường Keo Dán Tổng Hợp!
+        </p>
+
+        <!-- Final Knowledge Synthesis Table -->
+        <div class="end-summary-section">
+          <h3 class="summary-section-title">BẢNG TỔNG KẾT KIẾN THỨC BÀI THUYẾT TRÌNH</h3>
+          
+          <div class="summary-cards-3col">
+            
+            <div class="summary-box sam">
+              <div class="box-tag">🟢 VẬT LIỆU ĐÀN HỒI</div>
+              <h4>Nhựa Vá Săm</h4>
+              <ul>
+                <li><strong>Thành phần:</strong> Cao su/polymer phân tán trong dung môi bay hơi.</li>
+                <li><strong>Cơ chế:</strong> Bay hơi vật lý tạo màng mềm dẻo co giãn kín khí.</li>
+                <li><strong>Ứng dụng:</strong> Vá săm xe đạp, xe máy; lưu ý dung môi dễ cháy.</li>
+              </ul>
+            </div>
+
+            <div class="summary-box epoxy">
+              <div class="box-tag">🔵 NHỰA NHIỆT RẮN 3D</div>
+              <h4>Keo Epoxy (Keo AB)</h4>
+              <ul>
+                <li><strong>Thành phần:</strong> Nhựa DGEBA (vòng oxirane) + Hardener amine.</li>
+                <li><strong>Cơ chế:</strong> Mở vòng oxirane tạo mạng 3D liên kết ngang siêu bền.</li>
+                <li><strong>Ứng dụng:</strong> Dán kim loại sắt thép, bê tông, đổ bàn pha lê Resin.</li>
+              </ul>
+            </div>
+
+            <div class="summary-box uf">
+              <div class="box-tag">🟠 GỖ CÔNG NGHIỆP</div>
+              <h4>Keo Poly(UF)</h4>
+              <ul>
+                <li><strong>Thành phần:</strong> Trùng ngưng từ Urê và Formaldehyde.</li>
+                <li><strong>Đặc tính:</strong> Giá rẻ, sáng màu, dùng cho ván dăm & ván sợi MDF.</li>
+                <li><strong>Lưu ý:</strong> Kém chịu nước, phát thải Formaldehyde (cải tiến: keo MUF).</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="end-action-buttons">
+          <button class="btn-studio-secondary" onclick="restartGame()">
+            THUYẾT TRÌNH LẠI TỪ ĐẦU 🔄
+          </button>
+          <button class="btn-studio-primary" onclick="openCheatsheet()">
+            XEM SỔ TAY LÝ THUYẾT 📖
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         POLL MODAL: Ý KIẾN CẢ LỚP (INTERACTIVE CHART)
+         ========================================== -->
+    <div id="modal-poll" class="studio-modal-overlay">
+      <div class="poll-dialog-box">
+        <div class="dialog-top-tag">KẾT QUẢ KHẢO SÁT TRƯỜNG QUAY</div>
+        <h3 class="dialog-head">Ý Kiến Biểu Quyết Của Cả Lớp</h3>
+        <p class="dialog-desc">Tỷ lệ bình chọn từ khán giả trong phòng học:</p>
+
+        <div class="poll-bars-grid" id="poll-bars-container">
+          <!-- Dynamic bars inserted via JS -->
+        </div>
+
+        <button class="btn-modal-dismiss" onclick="closePollModal()">
+          ĐÃ HIỂU Ý KIẾN CẢ LỚP ✓
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         EXPERT MODAL: GỢI Ý CHUYÊN GIA
+         ========================================== -->
+    <div id="modal-expert" class="studio-modal-overlay">
+      <div class="expert-dialog-box">
+        <div class="dialog-top-tag">KẾT NỐI CHUYÊN GIA HÓA HỌC</div>
+        <div class="expert-profile">
+          <div class="expert-avatar">👨‍🔬</div>
+          <div class="expert-info">
+            <div class="expert-name">GS. Nguyễn Văn Khoa</div>
+            <div class="expert-role">Viện Hóa học Polymer & Vật liệu</div>
+          </div>
+        </div>
+
+        <div class="expert-speech-bubble" id="expert-speech-text">
+          Đang kết nối tín hiệu...
+        </div>
+
+        <button class="btn-modal-dismiss" onclick="closeExpertModal()">
+          CẢM ƠN CHUYÊN GIA ✓
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         EXPLANATION MODAL (SAU MỖI CÂU HỎI - KHÔNG BỊ GAME OVER)
+         ========================================== -->
+    <div id="modal-reveal" class="studio-modal-overlay">
+      <div class="reveal-dialog-box" id="reveal-box">
+        <div class="reveal-badge-tag" id="reveal-status-badge">✨ ĐÁP ÁN HOÀN TOÀN CHÍNH XÁC!</div>
+        <h3 class="reveal-title" id="reveal-title">Khám Phá Hóa Học</h3>
+        <div id="reveal-correction-banner" class="reveal-correction-banner" style="display:none;"></div>
+        <p class="reveal-explanation" id="reveal-explanation">
+          Lời giải thích khoa học...
+        </p>
+        <button class="btn-reveal-next" id="btn-next-question" onclick="advanceNextQuestion()">
+          TIẾP TỤC BẬC THANG TIẾP THEO ➡️
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         CHEATSHEET MODAL (BẢNG TRA CỨU)
+         ========================================== -->
+    <div id="modal-cheatsheet" class="studio-modal-overlay" onclick="handleCheatsheetOverlay(event)">
+      <div class="cheatsheet-dialog-box">
+        <div class="cs-header">
+          <div class="cs-title">SỔ TAY TRỌNG TÂM: KEO DÁN TỔNG HỢP</div>
+          <button class="cs-close" onclick="closeCheatsheet()">✕</button>
+        </div>
+
+        <div class="cs-body">
+          <div class="cs-section">
+            <h4>💡 I. Khái Niệm & Bản Chất</h4>
+            <p><strong>Keo dán:</strong> Là vật liệu có khả năng kết dính bề mặt của 2 vật liệu rắn với nhau mà không làm biến đổi bản chất của chúng, nhờ tạo màng bám chắc trung gian.</p>
+          </div>
+
+          <div class="cs-section sam">
+            <h4>🛞 II. Nhựa Vá Săm (Đặc trị Cao Su)</h4>
+            <ul>
+              <li><strong>Thành phần:</strong> Cao su/polymer tương thích + Dung môi hữu cơ bay hơi + Phụ gia.</li>
+              <li><strong>Cơ chế:</strong> Dung môi bay hơi vật lý để lại màng polymer mềm dẻo, co giãn kín khí theo săm xe.</li>
+              <li><strong>Lưu ý:</strong> Bề mặt phải sạch dầu mỡ; dung môi dễ cháy nên cần tránh xa ngọn lửa.</li>
+            </ul>
+          </div>
+
+          <div class="cs-section epoxy">
+            <h4>🧪 III. Keo Dán Epoxy (Keo AB - Vua Chịu Lực)</h4>
+            <ul>
+              <li><strong>Cấu tạo:</strong> Chứa các vòng oxirane (epoxide) ở hai đầu mạch, phổ biến là monomer <span class="chem-tag">DGEBA</span>.</li>
+              <li><strong>Hệ 2 phần:</strong> Phần A (Resin) + Phần B (Hardener Amine <span class="chem-tag">&mdash;NH<sub>2</sub></span>). Khi trộn, mở vòng oxirane tạo mạng không gian 3D nhiệt rắn.</li>
+              <li><strong>Đặc tính:</strong> Cách điện (<span class="chem-tag">&gt; 10<sup>15</sup> &Omega;</span>), chịu nhiệt <span class="chem-tag">80&deg;C &ndash; 180&deg;C</span>, kháng nước/hóa chất, dán kim loại sắt thép và đổ bàn Epoxy Resin.</li>
+            </ul>
+          </div>
+
+          <div class="cs-section uf">
+            <h4>🪵 IV. Keo Poly(urea-formaldehyde) (Vua Gỗ Công Nghiệp)</h4>
+            <ul>
+              <li><strong>Nguyên liệu:</strong> Urê <span class="chem-tag">CO(NH<sub>2</sub>)<sub>2</sub></span> và Formaldehyde <span class="chem-tag">HCHO</span> qua cầu <span class="chem-tag">&mdash;CH<sub>2</sub>&mdash;</span>.</li>
+              <li><strong>Ứng dụng:</strong> Ép ván dăm, ván sợi MDF đồ nội thất giá rẻ, đường keo sáng màu.</li>
+              <li><strong>Hạn chế:</strong> Kém chịu nước (thủy phân rã keo), phát thải khí Formaldehyde cay mắt/hô hấp. Cải tiến: Trộn Melamine tạo <span class="chem-tag">keo MUF</span>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
